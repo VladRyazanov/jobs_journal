@@ -2,7 +2,7 @@
 {% block content %}
 <h2 class="main_heading">Works Log</h2>
 {% for job in all_jobs %}
-<h3 class="job_number_heading">Action #{{ loop.index }}</h3>
+<h3 class="job_number_heading">Action #{{ job.id }}</h3>
 <table>
     <tr>
         <th>Title of activity</th>
