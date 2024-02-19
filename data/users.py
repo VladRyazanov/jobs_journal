@@ -1,8 +1,10 @@
 import datetime
+from typing import List
 import sqlalchemy
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
+from sqlalchemy import orm
+from sqlalchemy.orm import Mapped
 from data.db_session import SqlAlchemyBase
 
 
@@ -22,6 +24,8 @@ class User(SqlAlchemyBase, UserMixin):
     hashed_password = sqlalchemy.Column(sqlalchemy.String, nullable=True)
     modified_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                       default=datetime.datetime.now)
+    team_leader_jobs = orm.relationship("Jobs", back_populates="team_leader")
+
 
     def set_password(self, password):
         self.hashed_password = generate_password_hash(password)

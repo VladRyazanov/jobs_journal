@@ -18,6 +18,18 @@
         <td>{{ job.collaborators }}</td>
         <td>{{ job.is_finished }}</td>
     </tr>
+
 </table>
+{% if current_user.is_authenticated and current_user == job.user %}
+
+<div>
+        <a href="/news/{{ job.id }}" class="btn btn-warning">
+            Изменить
+        </a>
+        <a href="/news_delete/{{ job.id }}" class="btn btn-danger">
+            Удалить
+        </a>
+</div>
+{% endif %}
 {% endfor %}
 {% endblock %}

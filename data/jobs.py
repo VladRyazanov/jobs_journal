@@ -1,9 +1,13 @@
 import datetime
 import sqlalchemy
+from sqlalchemy import orm, ForeignKey
+from flask_login import UserMixin
+from sqlalchemy_serializer import SerializerMixin
+from sqlalchemy.orm import Mapped
 from data.db_session import SqlAlchemyBase
 
 
-class Jobs(SqlAlchemyBase):
+class Jobs(SqlAlchemyBase, SerializerMixin, UserMixin):
     __tablename__ = 'jobs'
     id = sqlalchemy.Column(sqlalchemy.Integer,
                            primary_key=True, autoincrement=True)
@@ -15,4 +19,5 @@ class Jobs(SqlAlchemyBase):
     end_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                  default=datetime.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
-    team_leader = sqlalchemy.Column(sqlalchemy.String, sqlalchemy.ForeignKey("users.id"))
+    team_leader_id = sqlalchemy.Column(sqlalchemy.Integer, ForeignKey("users.id"))
+    team_leader = orm.relationship("User", back_populates="team_leader_jobs")
