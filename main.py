@@ -138,8 +138,8 @@ def edit_job(id):
 @app.route("/delete_job/<int:id>", methods=["GET", "POST"])
 def delete_job(id):
     db_sess = db_session.create_session()
-    job = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user).first()
-    if job:
+    job = db_sess.query(Jobs).filter(Jobs.id == id).first()
+    if job and (job.team_leader == current_user or current_user.id == 1):
         db_sess.delete(job)
         db_sess.commit()
     else:
