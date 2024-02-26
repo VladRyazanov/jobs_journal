@@ -131,7 +131,6 @@ def edit_job(id):
             job.is_finished = form.is_finished.data
             db_sess.commit()
             return redirect("/")
-
     abort(404)
 
 
