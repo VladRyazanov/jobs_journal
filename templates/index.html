@@ -1,35 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
-<h2 class="main_heading">Works Log</h2>
-{% for job in all_jobs %}
-<h3 class="job_number_heading">Action #{{ job.id }}</h3>
-<table>
-    <tr>
-        <th>Title of activity</th>
-        <th>Team leader</th>
-        <th>Duration</th>
-        <th>List of collaborators</th>
-        <th>Is finished</th>
-    </tr>
-    <tr>
-        <td>{{ job.job }}</td>
-        <td>{{ job.team_leader.id }}</td>
-        <td>{{ job.work_size }}</td>
-        <td>{{ job.collaborators }}</td>
-        <td>{{ job.is_finished }}</td>
-    </tr>
-
-</table>
-{% if current_user.is_authenticated and current_user == job.user %}
-
-<div>
-        <a href="/news/{{ job.id }}" class="btn btn-warning">
-            Изменить
-        </a>
-        <a href="/news_delete/{{ job.id }}" class="btn btn-danger">
-            Удалить
-        </a>
-</div>
-{% endif %}
-{% endfor %}
+    <h1>Задачи</h1>
+    {% if current_user.is_authenticated %}
+        <a href="add_job" class="btn btn-secondary">Добавить задачу</a>
+    {% endif %}
+    {% for item in all_jobs %}
+        <div class="col-md6 border rounded">
+            <h2>{{ item.job }}</h2>
+            <div>
+                id Начальника - {{ item.team_leader.id }}
+            </div>
+            <div>
+                Объем работы - {{ item.work_size }}
+            </div>
+            <div>
+                Участники - {{ item.collaborators }}
+            </div>
+            <div>
+                Завершена - {{ item.is_finished }}
+            </div>
+            {% if current_user.is_authenticated and current_user == item.team_leader %}
+                <div>
+                    <a href="/edit_job/{{ item.id }}" class="btn btn-warning">Изменить</a>
+                    <a href="/delete_job/{{ item.id }}" class="btn btn-danger">Удалить</a>
+                </div>
+            {% endif %}
+        </div>
+    {% endfor %}
 {% endblock %}
