@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
 db_session.global_init("db/data.db")
 api = Api(app)
 api.add_resource(user_resource.UserListResource, '/api/v2/users')
-api.add_resource(user_resource.UserResource, '/api/v2/news/<int:users_id>')
+api.add_resource(user_resource.UserResource, '/api/v2/job/<int:users_id>')
 
 
 app.register_blueprint(jobs_api.blueprint)
@@ -133,6 +133,18 @@ def edit_job(id):
             return redirect("/")
 
     abort(404)
+
+
+@app.route("/delete_job/<int:id>", methods=["GET", "POST"])
+def delete_job(id):
+    db_sess = db_session.create_session()
+    job = db_sess.query(Jobs).filter(Jobs.id == id, Jobs.team_leader == current_user).first()
+    if job:
+        db_sess.delete(job)
+        db_sess.commit()
+    else:
+        abort(404)
+    return redirect('/')
 
 
 @app.route('/logout')
