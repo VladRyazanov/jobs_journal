@@ -144,6 +144,7 @@ def delete_job(id):
         db_sess.commit()
     else:
         abort(404)
+
     return redirect('/')
 
 
