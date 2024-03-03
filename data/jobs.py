@@ -19,7 +19,7 @@ class Jobs(SqlAlchemyBase, SerializerMixin, UserMixin):
     end_date = sqlalchemy.Column(sqlalchemy.DateTime,
                                  default=datetime.datetime.now)
     is_finished = sqlalchemy.Column(sqlalchemy.Boolean)
-    # team_leader_id = sqlalchemy.Column(sqlalchemy.Integer, ForeignKey("users.id"))
-    # team_leader = orm.relationship("User", back_populates="team_leader_jobs")
+    team_leader_id = sqlalchemy.Column(sqlalchemy.Integer, ForeignKey("users.id"))
+    team_leader = orm.relationship("User", back_populates="team_leader_jobs")
     user_id = sqlalchemy.Column(sqlalchemy.Integer, sqlalchemy.ForeignKey("users.id"))
     team_leader = orm.relationship('User')
